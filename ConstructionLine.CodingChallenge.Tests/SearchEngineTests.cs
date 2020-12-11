@@ -389,5 +389,93 @@ namespace ConstructionLine.CodingChallenge.Tests
             var results = searchEngine.Search(searchOptions);
             AssertSizeCounts(shirts, searchOptions, results.SizeCounts);
         }
+
+        [Test]
+        public void WhenSearchingGivenConflictingColorAndSizeShouldReturnResultCount()
+        {
+            var shirts = new List<Shirt>
+            {
+                new Shirt(Guid.NewGuid(), "Red - Small", Size.Small, Color.Red),
+                new Shirt(Guid.NewGuid(), "Black - Medium", Size.Medium, Color.Black),
+                new Shirt(Guid.NewGuid(), "Blue - Large", Size.Large, Color.Blue),
+            };
+
+            var searchEngine = new SearchEngine(shirts);
+
+            var searchOptions = new SearchOptions
+            {
+                Colors = new List<Color> { Color.Red },
+                Sizes = new List<Size> { Size.Medium }
+            };
+
+            var results = searchEngine.Search(searchOptions);
+            Assert.IsEmpty(results.Shirts);
+        }
+
+        [Test]
+        public void WhenSearchingGivenConflictingColorAndSizeShouldReturnResultItems()
+        {
+            var shirts = new List<Shirt>
+            {
+                new Shirt(Guid.NewGuid(), "Red - Small", Size.Small, Color.Red),
+                new Shirt(Guid.NewGuid(), "Black - Medium", Size.Medium, Color.Black),
+                new Shirt(Guid.NewGuid(), "Blue - Large", Size.Large, Color.Blue),
+            };
+
+            var searchEngine = new SearchEngine(shirts);
+
+            var searchOptions = new SearchOptions
+            {
+                Colors = new List<Color> { Color.Red },
+                Sizes = new List<Size> { Size.Medium }
+            };
+
+            var results = searchEngine.Search(searchOptions);
+            AssertResults(results.Shirts, searchOptions);
+        }
+
+        [Test]
+        public void WhenSearchingGivenConflictingColorAndSizeShouldReturnResultSizeCount()
+        {
+            var shirts = new List<Shirt>
+            {
+                new Shirt(Guid.NewGuid(), "Red - Small", Size.Small, Color.Red),
+                new Shirt(Guid.NewGuid(), "Black - Medium", Size.Medium, Color.Black),
+                new Shirt(Guid.NewGuid(), "Blue - Large", Size.Large, Color.Blue),
+            };
+
+            var searchEngine = new SearchEngine(shirts);
+
+            var searchOptions = new SearchOptions
+            {
+                Colors = new List<Color> { Color.Red },
+                Sizes = new List<Size> { Size.Medium }
+            };
+
+            var results = searchEngine.Search(searchOptions);
+            AssertSizeCounts(shirts, searchOptions, results.SizeCounts);
+        }
+
+        [Test]
+        public void WhenSearchingGivenConflictingColorAndSizeShouldReturnResultColorCount()
+        {
+            var shirts = new List<Shirt>
+            {
+                new Shirt(Guid.NewGuid(), "Red - Small", Size.Small, Color.Red),
+                new Shirt(Guid.NewGuid(), "Black - Medium", Size.Medium, Color.Black),
+                new Shirt(Guid.NewGuid(), "Blue - Large", Size.Large, Color.Blue),
+            };
+
+            var searchEngine = new SearchEngine(shirts);
+
+            var searchOptions = new SearchOptions
+            {
+                Colors = new List<Color> { Color.Red },
+                Sizes = new List<Size> { Size.Medium }
+            };
+
+            var results = searchEngine.Search(searchOptions);
+            AssertColorCounts(shirts, searchOptions, results.ColorCounts);
+        }
     }
 }
